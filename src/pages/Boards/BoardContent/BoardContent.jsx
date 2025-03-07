@@ -274,7 +274,7 @@ function BoardContent({ board }) {
     if (activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN) {
       return closestCorners({ ...args })
     }
-    // Tìm các điểm giao nhau, va chạm intersection với con trỏ 
+    // Tìm các điểm giao nhau, va chạm intersection với con trỏ
     const pointerIntersections = pointerWithin(args)
 
     if (!pointerIntersections?.length) return
@@ -283,7 +283,7 @@ function BoardContent({ board }) {
     // const intersection = !!pointerIntersections?.length
     //   ? pointerIntersections
     //   : rectIntersection(args)
-    
+
     // Tìm overId đầu tiên trong đám pointerIntersections ở trên
     let overId = getFirstCollision(pointerIntersections, 'id')
     if (overId) {
