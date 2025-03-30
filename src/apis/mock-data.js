@@ -23,7 +23,7 @@ export const mockData = {
             columnId: 'column-id-01',
             title: 'Title of card 01',
             description: 'Markdown Syntax',
-            cover: 'https://scontent-hkg4-1.xx.fbcdn.net/v/t39.30808-6/476228844_1723461991851506_8050927917782197939_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeHZeXCy-RHItqrP5tPSkw22eRQrFEaqkT15FCsURqqRPS8f0VhGcXeo7K32fsmBJqCZMvcsZ8anJq2uaZIdongz&_nc_ohc=e3q0cRdSwo8Q7kNvgFbwADH&_nc_oc=Adi6n-kL0J3eMB8z_rcnvt3UFgERw4xcIuT3ibkiVsRTByNGdVsEB_Xw5e5vXUJraFZVOv735mfSHfVtyD1xJAjA&_nc_zt=23&_nc_ht=scontent-hkg4-1.xx&_nc_gid=AfE8kA51UyleLOZqAZRn79r&oh=00_AYA9TCKUpUwapsaQAgOO7ciK3gjLdMS48yUjdFXdR3G8yQ&oe=67C85BE5',
+            cover: 'https://scontent.fdad3-1.fna.fbcdn.net/v/t39.30808-6/476228844_1723461991851506_8050927917782197939_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=833d8c&_nc_ohc=9y2P5iL1pS0Q7kNvgFGTKi7&_nc_oc=AdkQkPprGXxXcOUhmq-eZa5qbvqzPLWRjCKSPpbgqCXvwNWxm90CiYFhPYp9o1ts6dM&_nc_zt=23&_nc_ht=scontent.fdad3-1.fna&_nc_gid=JDjTUYsPOJbBEqDg7Pw_oA&oh=00_AYEs6-DroKrm6A8W2OAi1iadXyZXutkS5UNU4IiXqqdbiQ&oe=67EF07E5',
             memberIds: ['test-user-id-01'],
             comments: ['test comment 01', 'test comment 02'],
             attachments: ['test attachment 01', 'test attachment 02', 'test attachment 03']
