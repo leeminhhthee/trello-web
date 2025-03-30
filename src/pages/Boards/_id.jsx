@@ -3,6 +3,7 @@ import Container from '@mui/material/Container'
 import AppBar from '~/components/AppBar/AppBar'
 import BoardBar from './BoardBar/BoardBar'
 import BoardContent from './BoardContent/BoardContent'
+
 // import { mockData } from '~/apis/mock-data'
 import { fetchBoardDetailsAPI } from '~/apis'
 
@@ -11,7 +12,7 @@ function Board() {
 
   useEffect(() => {
     // Có thể dùng react-router-dom để lấy chuẩn boardId từ URL về
-    const boardId = '67e94b0051619dab1945d6f3'
+    const boardId = '67e95f57fd22eec475a435cc'
     // Call API
     fetchBoardDetailsAPI(boardId).then(board => {
       setBoard(board)
