@@ -22,8 +22,9 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import TextField from '@mui/material/TextField'
 import CloseIcon from '@mui/icons-material/Close'
+import { toast } from 'react-toastify'
 
-function Column({ column }) {
+function Column({ column, createNewCard }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: column._id,
     data: { ...column }
@@ -41,10 +42,10 @@ function Column({ column }) {
     opacity: isDragging ? 0.5 : undefined
   }
 
-  const handleClose = () => { setAnchorEl(null) }
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
   const handleClick = (event) => { setAnchorEl(event.currentTarget) }
+  const handleClose = () => { setAnchorEl(null) }
 
   const orderedCards = mapOrder(column?.cards, column?.cardOrderIds, '_id')
 
@@ -53,13 +54,22 @@ function Column({ column }) {
 
   const [newCardTitle, setNewCardTitle] = useState('')
 
-  const addNewCard = () => {
+  const addNewCard = async () => {
     if (!newCardTitle) {
-      console.error('Please enter Column Title!')
+      toast.error('Please enter Card Title!', { position: 'bottom-right' })
       return
     }
 
-    // Gọi API ở đây
+    // Tạo dữ liệu Card để gọi API
+    const newCardData = {
+      title: newCardTitle,
+      columnId: column._id
+    }
+
+    /**
+      * Gọi lên props function createNewCard nằm ở component cha cao nhất (boards/_id.jsx)
+      */
+    await createNewCard(newCardData)
 
     // Đóng trạng thái thêm Column mới và Clear Input
     toggleOpenNewCardForm()
@@ -175,6 +185,7 @@ function Column({ column }) {
                 size="small"
                 variant='outlined'
                 autoFocus
+                data-no-dnd="true"
                 value={newCardTitle}
                 onChange={(e) => setNewCardTitle(e.target.value)}
                 sx={{
@@ -196,6 +207,7 @@ function Column({ column }) {
               />
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <Button
+                  data-no-dnd="true"
                   onClick={addNewCard}
                   variant="contained" color="success" size="small"
                   sx={{
@@ -205,6 +217,7 @@ function Column({ column }) {
                     '&:hover': { bgcolor: (theme) => theme.palette.success.main }
                   }}>Add</Button>
                 <CloseIcon
+                  data-no-dnd="true"
                   fontSize='small'
                   sx={{
                     color: (theme) => theme.palette.warning.light,

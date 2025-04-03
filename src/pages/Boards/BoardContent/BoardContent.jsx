@@ -4,8 +4,8 @@ import { mapOrder } from '~/utils/sorts'
 import {
   DndContext,
   // PointerSensor,
-  MouseSensor,
-  TouchSensor,
+  // MouseSensor,
+  // TouchSensor,
   useSensor,
   useSensors,
   DragOverlay,
@@ -16,6 +16,7 @@ import {
   getFirstCollision,
   closestCenter
 } from '@dnd-kit/core'
+import { MouseSensor, TouchSensor } from '~/customLibraries/DndKitSensors'
 import { useCallback, useEffect, useState, useRef } from 'react'
 import { arrayMove } from '@dnd-kit/sortable'
 import { cloneDeep, isEmpty } from 'lodash'
@@ -29,7 +30,7 @@ const ACTIVE_DRAG_ITEM_TYPE = {
   CARD: 'ACTIVE_DRAG_ITEM_TYPE_CARD'
 }
 
-function BoardContent({ board }) {
+function BoardContent({ board, createNewColumn, createNewCard, moveColumns }) {
   // https://docs.dndkit.com/api-documentation/sensors
   // Nếu dùng PointerSensor thì cần phải sử dụng kết hợp thuộc tính CSS touch-action: none ở những phần tử
   // kéo thả- nhưng mà còn bug
@@ -54,7 +55,7 @@ function BoardContent({ board }) {
   const lastOverId = useRef(null)
 
   useEffect(() => {
-    setOrderedColumns(mapOrder(board?.columns, board?.columnOrderIds, 'id'))
+    setOrderedColumns(mapOrder(board?.columns, board?.columnOrderIds, '_id'))
   }, [board])
 
   // Tìm một cái column theo CardId
@@ -247,10 +248,10 @@ function BoardContent({ board }) {
         const newColumnIndex = orderedColumns.findIndex(column => column._id === over.id)
         const dndOrderedColumns = arrayMove(orderedColumns, oldColumnIndex, newColumnIndex)
 
-        // Dùng để xử lý gọi API
-        // const dndColumnOrderIds = dndOrderedColumns.map(column => column._id)
-        // console.log(dndColumnOrderIds)
-        // Cập nhật lại state sau khi kéo thả
+        // Goi len props func moveColumns nam o component cha cao nhat (board/_id.jsx)
+        moveColumns(dndOrderedColumns)
+
+        // Van goi update State o day de tranh delay or flickering giao dien luc keo tha can phai cho doi goi API
         setOrderedColumns(dndOrderedColumns)
       }
     }
@@ -325,7 +326,11 @@ function BoardContent({ board }) {
         height: (theme) => theme.trello.boardContentHeight,
         p: '10px 0'
       }}>
-        <ListColumns columns={orderedColumns} />
+        <ListColumns
+          columns={orderedColumns}
+          createNewColumn={createNewColumn}
+          createNewCard={createNewCard}
+        />
         <DragOverlay dropAnimation={customDropAnimation}>
           {!activeDragItemType && null}
           {(activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN) && <Column column={activeDragItemData} />}
