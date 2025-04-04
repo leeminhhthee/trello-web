@@ -13,11 +13,14 @@ import {
   createNewColumnAPI,
   createNewCardAPI,
   updateBoardDetailsAPI,
-  updateColumnDetailsAPI
+  updateColumnDetailsAPI,
+  moveCardToDifferentColumnAPI,
+  deleteColumnDetailsAPI
 } from '~/apis'
 import Box from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
 import Typography from '@mui/material/Typography'
+import { toast } from 'react-toastify'
 
 function Board() {
   const [board, setBoard] = useState(null)
@@ -73,8 +76,15 @@ function Board() {
     const newBoard = { ...board }
     const columnToUpdate = newBoard.columns.find(column => column._id === createdCard.columnId)
     if (columnToUpdate) {
-      columnToUpdate.cards.push(createdCard)
-      columnToUpdate.cardOrderIds.push(createdCard._id)
+      // Neu column rong (chua placeholder-card)
+      if (columnToUpdate.cards.some(card => card.FE_PlaceholderCard)) {
+        columnToUpdate.cards = [createdCard]
+        columnToUpdate.cardOrderIds = [createdCard._id]
+      } else {
+        // Nguoc lai Column da co data thi push vao cuoi mang
+        columnToUpdate.cards.push(createdCard)
+        columnToUpdate.cardOrderIds.push(createdCard._id)
+      }
     }
     setBoard(newBoard)
   }
@@ -93,7 +103,7 @@ function Board() {
   }
 
   // Khi di chuyen Card trong cung Column:
-  // Chi can goi API e update mang cardOrderIds trong Column chua no
+  // Chi can goi API de update mang cardOrderIds trong Column chua no
   const moveCardInTheSameColumn = (dndOrderedCards, dndOrderedCardIds, columnId) => {
     // Update cho chuan du lieu state Board (UI)
     const newBoard = { ...board }
@@ -106,6 +116,51 @@ function Board() {
 
     // Goi API update column
     updateColumnDetailsAPI(columnId, { cardOrderIds: dndOrderedCardIds })
+  }
+
+  /**
+  * Khi di chuyển card sang Column khác:
+  * B1: Cập nhật mảng cardOrderIds của Column ban đầu chứa nó (Hiểu bản chất là
+  * xóa cái _id của Card ra khỏi mång)
+  * B2: Cập nhật mảng cardOrderIds của Column tiếp theo (Hiểu bản chất là thêm _id của Card vào mảng)
+  * B3: Cập nhật lại trường columnId mới của cái Card đã kéo
+  * => Làm một API support riêng,
+  */
+  const moveCardToDifferentColumn = (currentCardId, prevColumnId, nextColumnId, dndOrderedColumns) => {
+    // Update cho chuan du lieu state Board (UI)
+    const dndColumnOrderIds = dndOrderedColumns.map(column => column._id)
+    const newBoard = { ...board }
+    newBoard.columns = dndOrderedColumns
+    newBoard.columnOrderIds = dndColumnOrderIds
+    setBoard(newBoard)
+
+    // Goi API xu ly phia BE
+    let prevCardOrderIds = dndOrderedColumns.find(c => c._id === prevColumnId)?.cardOrderIds
+    // Xu ly van de khi keo Card cuoi cung ra khoi Column (Column rong se co placeholder-card, can xoa di
+    // truoc khi gui du lieu len phia BE)
+    if (prevCardOrderIds[0].includes('placeholder-card')) prevCardOrderIds = []
+
+    moveCardToDifferentColumnAPI({
+      currentCardId,
+      prevColumnId,
+      prevCardOrderIds,
+      nextColumnId,
+      nextCardOrderIds: dndOrderedColumns.find(c => c._id === nextColumnId)?.cardOrderIds
+    })
+  }
+
+  // Xu ly xoa mot Column va Cards ben trong no
+  const deleteColumnDetails = (columnId) => {
+    // Update cho chuan du lieu state Board
+    const newBoard = { ...board }
+    newBoard.columns = newBoard.columns.filter(c => c._id !== columnId)
+    newBoard.columnOrderIds = newBoard.columnOrderIds.filter(_id => _id !== columnId)
+    setBoard(newBoard)
+
+    // Goi API xu ly phia BE
+    deleteColumnDetailsAPI(columnId).then(res => {
+      toast.success(res?.deleteResult)
+    })
   }
 
   if (!board) {
@@ -130,10 +185,13 @@ function Board() {
       <BoardBar board={board} />
       <BoardContent
         board={board}
+
         createNewColumn={createNewColumn}
         createNewCard={createNewCard}
         moveColumns={moveColumns}
         moveCardInTheSameColumn={moveCardInTheSameColumn}
+        moveCardToDifferentColumn={moveCardToDifferentColumn}
+        deleteColumnDetails={deleteColumnDetails}
       />
     </Container>
   )

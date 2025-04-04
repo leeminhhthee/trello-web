@@ -13,6 +13,11 @@ export const updateBoardDetailsAPI = async (boardId, updateData) => {
   return respone.data
 }
 
+export const moveCardToDifferentColumnAPI = async (updateData) => {
+  const respone = await axios.put(`${API_ROOT}/v1/boards/supports/moving_card`, updateData)
+  return respone.data
+}
+
 /** Columns */
 export const createNewColumnAPI = async (newColumnData) => {
   const respone = await axios.post(`${API_ROOT}/v1/columns`, newColumnData)
@@ -21,6 +26,11 @@ export const createNewColumnAPI = async (newColumnData) => {
 
 export const updateColumnDetailsAPI = async (columnId, updateData) => {
   const respone = await axios.put(`${API_ROOT}/v1/columns/${columnId}`, updateData)
+  return respone.data
+}
+
+export const deleteColumnDetailsAPI = async (columnId) => {
+  const respone = await axios.delete(`${API_ROOT}/v1/columns/${columnId}`)
   return respone.data
 }
 
