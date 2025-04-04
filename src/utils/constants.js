@@ -7,7 +7,7 @@ if (process.env.BUILD_MODE === 'dev') {
   apiRoot = 'http://localhost:8017'
 }
 if (process.env.BUILD_MODE === 'production') {
-  apiRoot = 'ttps://trello-api-i2uq.onrender.com'
+  apiRoot = 'https://trello-api-i2uq.onrender.com'
 }
 
 console.log('🚀 ~ apiRoot:', apiRoot)
