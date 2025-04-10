@@ -48,7 +48,7 @@ Live demo available at:
 Contributions are welcome!
 Feel free to open an issue or submit a pull request to improve this project.
 
-## 🖼️ Hình Ảnh Giao Diện
+## 🖼️ Screenshots
 
 | Dashboard | Board View | Task Details |
 |-----------|------------|--------------|
