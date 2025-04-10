@@ -15,7 +15,7 @@ A Trello clone built using the MERN Stack, allowing users to create boards, list
 ## 🛠️ Technologies Used
 
 - **Frontend:** Vite, React.js, Material UI, DnDKit,...
-- **Backend:** Node.js, Express.js,...
+- **Backend:** Node.js, Express.js
 - **Database:** MongoDB
 - **Clean Code:** Eslint
 - **Deployment:** Vercel (Frontend), Render (Backend)
@@ -50,6 +50,6 @@ Feel free to open an issue or submit a pull request to improve this project.
 
 ## 🖼️ Screenshots
 
-| Dashboard | Board View | Task Details ||-----------|------------|--------------|
+|-----------|------------|--------------|
 | ![](screenshots/Screenshot1.png) | ![](screenshots/Screenshot2.png) | ![](screenshots/Screenshot3.png) |
 | ![](screenshots/Screenshot4.png) | ![](screenshots/Screenshot5.png) | |
