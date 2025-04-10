@@ -50,6 +50,7 @@ Feel free to open an issue or submit a pull request to improve this project.
 
 ## 🖼️ Screenshots
 
+| Dashboard | Board View | Task Details |
 |-----------|------------|--------------|
 | ![](screenshots/Screenshot1.png) | ![](screenshots/Screenshot2.png) | ![](screenshots/Screenshot3.png) |
 | ![](screenshots/Screenshot4.png) | ![](screenshots/Screenshot5.png) | |
