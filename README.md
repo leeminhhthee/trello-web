@@ -29,7 +29,7 @@ git clone https://github.com/leeminhhthee/trello-web.git
 cd trello-web
 ```
 ## Note: You need to clone the backend from this link before running the frontend:
-👉 https://github.com/leeminhhthee/trello-api
+👉 [trello-api](https://github.com/leeminhhthee/trello-api)
 
 ### 2. Setup and Run
 
